@@ -6,7 +6,7 @@ import (
 )
 
 func Init(r *mux.Router, store *store.Store) {
-	InitHomeRoutes(r, store)
-	InitAPIRoutes(r, store)
-	InitRedirectRoutes(r, store)
+	InitHome(r, store)
+	InitAPI(r, store)
+	InitRedirect(r, store)
 }

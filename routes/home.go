@@ -13,6 +13,6 @@ func home(w http.ResponseWriter, r *http.Request) {
 	io.WriteString(w, "DS is me - URL Shortner!")
 }
 
-func InitHomeRoutes(r *mux.Router, store *store.Store) {
+func InitHome(r *mux.Router, store *store.Store) {
 	r.HandleFunc("/", home)
 }

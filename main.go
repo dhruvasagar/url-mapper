@@ -12,6 +12,7 @@ import (
 	"github.com/dhruvasagar/url-mapper/routes"
 	"github.com/dhruvasagar/url-mapper/store"
 	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -46,6 +47,11 @@ func getWaitTimeout() time.Duration {
 }
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
 	store, err := store.Open()
 	if err != nil {
 		log.Fatal("Unable to open db: ", err)

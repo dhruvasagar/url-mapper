@@ -6,7 +6,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func InitAPIRoutes(r *mux.Router, store *store.Store) {
+func InitAPI(r *mux.Router, store *store.Store) {
 	s := r.PathPrefix(
 		"/api/",
 	).Headers(
