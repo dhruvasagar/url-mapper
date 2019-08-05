@@ -10,7 +10,7 @@ import (
 
 func index(st *store.Store) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		urlMaps, err := st.GetAll()
+		urlMaps, err := st.GetAllURLMaps()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -19,13 +19,13 @@ func index(st *store.Store) http.HandlerFunc {
 	}
 }
 
-func createOrUpdate(r *http.Request, st *store.Store) (*store.UrlMap, error) {
-	var urlMap store.UrlMap
+func createOrUpdate(r *http.Request, st *store.Store) (*store.URLMap, error) {
+	var urlMap store.URLMap
 	err := json.NewDecoder(r.Body).Decode(&urlMap)
 	if err != nil {
 		return nil, err
 	}
-	return &urlMap, st.Put(urlMap)
+	return &urlMap, st.SaveURLMap(urlMap)
 }
 
 func create(st *store.Store) http.HandlerFunc {
@@ -45,7 +45,7 @@ func get(st *store.Store) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 		key := vars["key"]
-		urlMap, err := st.Get(key)
+		urlMap, err := st.GetURLMap(key)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -71,7 +71,7 @@ func del(st *store.Store) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 		key := vars["key"]
-		err := st.Delete(key)
+		err := st.DelURLMap(key)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return

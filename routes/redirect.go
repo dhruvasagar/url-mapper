@@ -12,7 +12,7 @@ func redirect(st *store.Store) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 		key := vars["key"]
-		urlMap, err := st.Get(key)
+		urlMap, err := st.GetURLMap(key)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -23,7 +23,7 @@ func redirect(st *store.Store) http.HandlerFunc {
 			return
 		}
 
-		http.Redirect(w, r, urlMap.Url, http.StatusSeeOther)
+		http.Redirect(w, r, urlMap.URL, http.StatusSeeOther)
 	}
 }
 
