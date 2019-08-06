@@ -47,9 +47,11 @@ func (s *Store) GetURLMap(key string) (*URLMap, error) {
 	err := s.db.View(func(tx *bolt.Tx) error {
 		b := tx.Bucket(getURLMapsBucket())
 		val := b.Get([]byte(key))
-		urlMap = &URLMap{
-			Key: key,
-			URL: string(val),
+		if val != nil {
+			urlMap = &URLMap{
+				Key: key,
+				URL: string(val),
+			}
 		}
 		return nil
 	})

@@ -28,7 +28,7 @@ func TestAuthoriziationHandler(t *testing.T) {
 		t.Error("Did not get expected HTTP status code, got", w.Code)
 	}
 	if w.Body.String() != "Unauthorized Access\n" {
-		t.Error("Did not get expected response body, got", w.Body.String())
+		t.Error("Did not get expected HTTP response body, got", w.Body.String())
 	}
 }
 

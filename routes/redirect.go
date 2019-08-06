@@ -18,7 +18,7 @@ func redirect(st *store.Store) http.HandlerFunc {
 			return
 		}
 		if urlMap == nil {
-			err := fmt.Errorf("No URL mapped to key: %s", key)
+			err := fmt.Errorf("No URL mapped to key: %q", key)
 			http.Error(w, err.Error(), http.StatusNotImplemented)
 			return
 		}
