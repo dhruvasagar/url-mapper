@@ -27,6 +27,6 @@ func redirect(st *store.Store) http.HandlerFunc {
 	}
 }
 
-func InitRedirect(r *mux.Router, store *store.Store) {
-	r.HandleFunc("/{key}", redirect(store)).Methods("GET")
+func InitRedirect(r *mux.Router, st *store.Store) {
+	r.HandleFunc("/{key}", redirect(st)).Methods("GET")
 }

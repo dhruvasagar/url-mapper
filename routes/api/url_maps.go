@@ -81,16 +81,16 @@ func del(st *store.Store) http.HandlerFunc {
 	}
 }
 
-func InitURLMapsRoutes(r *mux.Router, store *store.Store) {
+func InitURLMaps(r *mux.Router, st *store.Store) {
 	s := r.PathPrefix(
 		"/url_maps/",
 	).Headers(
 		"Content-Type", "application/json",
 	).Subrouter()
 
-	s.HandleFunc("/", index(store)).Methods("GET")
-	s.HandleFunc("/", create(store)).Methods("POST")
-	s.HandleFunc("/{key}", get(store)).Methods("GET")
-	s.HandleFunc("/{key}", update(store)).Methods("PUT")
-	s.HandleFunc("/{key}", del(store)).Methods("DELETE")
+	s.HandleFunc("/", index(st)).Methods("GET")
+	s.HandleFunc("/", create(st)).Methods("POST")
+	s.HandleFunc("/{key}", get(st)).Methods("GET")
+	s.HandleFunc("/{key}", update(st)).Methods("PUT")
+	s.HandleFunc("/{key}", del(st)).Methods("DELETE")
 }

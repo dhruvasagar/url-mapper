@@ -11,6 +11,7 @@ import (
 
 	"github.com/dhruvasagar/url-mapper/routes"
 	"github.com/dhruvasagar/url-mapper/store"
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 	log "github.com/sirupsen/logrus"
@@ -52,14 +53,15 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
-	store, err := store.Open()
+	st, err := store.New()
 	if err != nil {
 		log.Fatal("Unable to open db: ", err)
 	}
 
 	r := mux.NewRouter()
+	loggedRouter := handlers.LoggingHandler(os.Stdout, r)
 
-	routes.Init(r, store)
+	routes.Init(r, st)
 
 	srv := &http.Server{
 		Addr: getListenAddr(),
@@ -67,7 +69,7 @@ func main() {
 		WriteTimeout: time.Second * 15,
 		ReadTimeout:  time.Second * 15,
 		IdleTimeout:  time.Second * 60,
-		Handler:      r,
+		Handler:      loggedRouter,
 	}
 
 	go func() {
@@ -95,6 +97,6 @@ func main() {
 	// <-ctx.Done() if your application should wait for other services
 	// to finalize based on context cancellation.
 	log.Println("shutting down")
-	store.Close()
+	st.Close()
 	os.Exit(0)
 }

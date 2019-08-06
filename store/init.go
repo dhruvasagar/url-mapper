@@ -15,20 +15,11 @@ func getBoltPath() string {
 	return dbName
 }
 
-func getURLMapsBucket() []byte {
-	dbBucket := os.Getenv("DB_BUCKET")
-	if dbBucket == "" {
-		dbBucket = "url_maps"
-	}
-	return []byte(dbBucket)
-}
-
 type Store struct {
-	db            *bolt.DB
-	urlMapsBucket []byte
+	db *bolt.DB
 }
 
-func Open() (*Store, error) {
+func New() (*Store, error) {
 	boltPath := getBoltPath()
 	boltURLMapsBucket := getURLMapsBucket()
 
@@ -49,8 +40,7 @@ func Open() (*Store, error) {
 	}
 
 	return &Store{
-		db:            db,
-		urlMapsBucket: boltURLMapsBucket,
+		db: db,
 	}, nil
 }
 

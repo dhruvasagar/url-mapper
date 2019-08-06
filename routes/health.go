@@ -1,4 +1,4 @@
-package api
+package routes
 
 import (
 	"encoding/json"
@@ -12,6 +12,6 @@ func healthHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(map[string]bool{"ok": true})
 }
 
-func InitHealthRoute(r *mux.Router) {
+func InitHealth(r *mux.Router) {
 	r.HandleFunc("/health", healthHandler).Methods("GET")
 }
