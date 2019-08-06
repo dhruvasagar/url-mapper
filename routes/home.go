@@ -10,7 +10,7 @@ import (
 
 func home(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
-	io.WriteString(w, "DS is me - URL Shortner!")
+	io.WriteString(w, "URL Mapper - Simple keyword to url mapper for short meaningful urls")
 }
 
 func InitHome(r *mux.Router, st *store.Store) {
