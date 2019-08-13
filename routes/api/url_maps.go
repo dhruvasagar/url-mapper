@@ -8,6 +8,11 @@ import (
 	"github.com/gorilla/mux"
 )
 
+func renderJson(w http.ResponseWriter, data interface{}) {
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(data)
+}
+
 func index(st *store.Store) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		urlMaps, err := st.GetAllURLMaps()
@@ -15,7 +20,7 @@ func index(st *store.Store) http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		json.NewEncoder(w).Encode(urlMaps)
+		renderJson(w, urlMaps)
 	}
 }
 
@@ -37,7 +42,7 @@ func create(st *store.Store) http.HandlerFunc {
 		}
 
 		w.WriteHeader(http.StatusCreated)
-		json.NewEncoder(w).Encode(urlMap)
+		renderJson(w, urlMap)
 	}
 }
 
@@ -50,7 +55,7 @@ func get(st *store.Store) http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		json.NewEncoder(w).Encode(urlMap)
+		renderJson(w, urlMap)
 	}
 }
 
@@ -63,7 +68,7 @@ func update(st *store.Store) http.HandlerFunc {
 		}
 
 		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(urlMap)
+		renderJson(w, urlMap)
 	}
 }
 
@@ -77,7 +82,7 @@ func del(st *store.Store) http.HandlerFunc {
 			return
 		}
 		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(map[string]bool{"ok": true})
+		renderJson(w, map[string]bool{"ok": true})
 	}
 }
 

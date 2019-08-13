@@ -1,21 +1,14 @@
 package routes
 
 import (
-	// "fmt"
 	"net/http"
 	"net/http/httptest"
-	"os"
 	"testing"
 
 	"github.com/dhruvasagar/url-mapper/store"
+	"github.com/dhruvasagar/url-mapper/test"
 	"github.com/gorilla/mux"
 )
-
-func setupStore() *store.Store {
-	os.Setenv("DB_PATH", "url-mapper-test.db")
-	st, _ := store.New()
-	return st
-}
 
 func setupRedirect(dst *store.Store) (*httptest.ResponseRecorder, *store.Store) {
 	w := httptest.NewRecorder()
@@ -24,7 +17,7 @@ func setupRedirect(dst *store.Store) (*httptest.ResponseRecorder, *store.Store) 
 	var st *store.Store
 
 	if dst == nil {
-		st = setupStore()
+		st = test.NewTestStore()
 	} else {
 		st = dst
 	}
@@ -41,6 +34,7 @@ func setupRedirect(dst *store.Store) (*httptest.ResponseRecorder, *store.Store) 
 func TestRedirectFailure(t *testing.T) {
 	w, st := setupRedirect(nil)
 	defer st.Close()
+	defer test.CleanTestStore()
 
 	if w.Code != http.StatusNotImplemented {
 		t.Error("Did not get expected HTTP status code, got", w.Code)
@@ -62,8 +56,9 @@ func teardownURLMap(st *store.Store) {
 }
 
 func TestRedirectSuccessful(t *testing.T) {
-	st := setupStore()
+	st := test.NewTestStore()
 	defer st.Close()
+	defer test.CleanTestStore()
 
 	setupURLMap(st)
 

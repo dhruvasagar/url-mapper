@@ -5,13 +5,15 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/dhruvasagar/url-mapper/store"
+	"github.com/dhruvasagar/url-mapper/test"
 	"github.com/gorilla/mux"
 )
 
 func TestHome(t *testing.T) {
 	w := httptest.NewRecorder()
-	st := &store.Store{}
+	st := test.NewTestStore()
+	defer st.Close()
+	defer test.CleanTestStore()
 
 	r := mux.NewRouter()
 	InitHome(r, st)
