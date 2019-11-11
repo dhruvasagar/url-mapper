@@ -9,7 +9,7 @@ restart() {
     pkill -F $PID_FILE
     rm -f $PID_FILE
   fi
-  ./dsis.me > $LOG_FILE 2>&1 &
+  ./url-mapper > $LOG_FILE 2>&1 &
   echo $! > $PID_FILE
 }
 
